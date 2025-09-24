@@ -218,6 +218,8 @@ fn create_event_for_tidb_sql(index: usize, timestamp: String) -> (Vec<Event>, Ve
     );
     let sql_digest_vec = generate_random_digest();
     let plan_digest_vec = generate_random_digest();
+    let sql_random_vec = generate_random_string(100, 10);
+    let plan_random_vec = generate_random_string(100, 10);
     let cpu_time_vec = generate_random_int();
     let stmt_exec_count_vec = generate_random_bigint();
     let stmt_duration_sum_vec = generate_random_bigint();
@@ -235,8 +237,8 @@ fn create_event_for_tidb_sql(index: usize, timestamp: String) -> (Vec<Event>, Ve
         log.insert("_schema_metadata", serde_json::Value::Object(schema_info.clone()));
         log.insert("sql_digest", LogValue::from(sql_digest_vec[index].to_string()));
         log.insert("plan_digest", LogValue::from(plan_digest_vec[index].to_string()));
-        log.insert("sql", LogValue::from(SQL_CONSTANT.to_string()));
-        log.insert("plan", LogValue::from(PLAN_CONSTANT.to_string()));
+        log.insert("sql", LogValue::from(SQL_CONSTANT.to_string().replace("tbl_test_001", sql_random_vec[index].as_str())));
+        log.insert("plan", LogValue::from(PLAN_CONSTANT.to_string().replace("tbl_test_001", sql_random_vec[index].as_str())));
         log.insert("cpu_time_ms", LogValue::from(cpu_time_vec[index]));
         log.insert("stmt_exec_count", LogValue::from(stmt_exec_count_vec[index]));
         log.insert("stmt_duration_sum_ns", LogValue::from(stmt_duration_sum_vec[index]));
@@ -251,8 +253,8 @@ fn create_event_for_tidb_sql(index: usize, timestamp: String) -> (Vec<Event>, Ve
         tikv_log.insert("_vector_instance", format!("127.0.0.{}", index));
         tikv_log.insert("_vector_timestamp", timestamp.clone());
         tikv_log.insert("_schema_metadata", serde_json::Value::Object(tikv_schema_info.clone()));
-        tikv_log.insert("sql_digest", LogValue::from(sql_digest_vec[index].to_string()));
-        tikv_log.insert("plan_digest", LogValue::from(plan_digest_vec[index].to_string()));
+        tikv_log.insert("sql", LogValue::from(SQL_CONSTANT.to_string().replace("tbl_test_001", sql_random_vec[index].as_str())));
+        tikv_log.insert("plan", LogValue::from(PLAN_CONSTANT.to_string().replace("tbl_test_001", sql_random_vec[index].as_str())));
         tikv_log.insert("sql", LogValue::from(SQL_CONSTANT.to_string()));
         tikv_log.insert("plan", LogValue::from(PLAN_CONSTANT.to_string()));
         tikv_log.insert("stmt_exec_count", LogValue::from(stmt_exec_count_vec[index]));
@@ -344,6 +346,8 @@ fn create_event_for_tikv_sql(index: usize, timestamp: String) -> Vec<Event> {
     );
     let sql_digest_vec = generate_random_digest();
     let plan_digest_vec = generate_random_digest();
+    let sql_random_vec = generate_random_string(100, 10);
+    let plan_random_vec = generate_random_string(100, 10);
     let cpu_time_vec = generate_random_int();
     let read_keys_vec = generate_random_int();
     let network_in_vec = generate_random_bigint();
@@ -361,8 +365,8 @@ fn create_event_for_tikv_sql(index: usize, timestamp: String) -> Vec<Event> {
         log.insert("_vector_instance", format!("127.0.0.{}", index));
         log.insert("_vector_timestamp", timestamp.clone());
         log.insert("_schema_metadata", serde_json::Value::Object(schema_info.clone()));
-        log.insert("sql_digest", LogValue::from(sql_digest_vec[index].to_string()));
-        log.insert("plan_digest", LogValue::from(plan_digest_vec[index].to_string()));
+        log.insert("sql", LogValue::from(SQL_CONSTANT.to_string().replace("tbl_test_001", sql_random_vec[index].as_str())));
+        log.insert("plan", LogValue::from(PLAN_CONSTANT.to_string().replace("tbl_test_001", sql_random_vec[index].as_str())));
         log.insert("sql", LogValue::from(SQL_CONSTANT.to_string()));
         log.insert("plan", LogValue::from(PLAN_CONSTANT.to_string()));
         log.insert("cpu_time_ms", LogValue::from(cpu_time_vec[index]));
