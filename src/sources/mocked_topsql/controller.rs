@@ -104,33 +104,20 @@ fn generate_random_bigint() -> Vec<i64> {
     arr1.to_vec()
 }
 
-fn generate_random_string() -> Vec<String> {
-    let mut rng = rand::rng();
-    let arr1: [String; 100] = rng.sample_iter(Alphanumeric)
-        .take(8)
-        .map(char::from)
-        .collect::<String>()
-        .as_bytes()
-        .chunks(7)
-        .map(|chunk| String::from_utf8(chunk.to_vec()).unwrap())
-        .collect::<Vec<String>>()
-        .try_into()
-        .unwrap();
-    arr1.to_vec()
+fn generate_random_string(num_strings: i32, string_length: usize) -> Vec<String> {
+    let random_strings: Vec<String> = (0..num_strings)
+        .map(|_| {
+            rand::thread_rng() // 获取线程局部的随机数生成器
+                .sample_iter(&Alphanumeric) // 从 Alphanumeric 分布中创建迭代器
+                .take(string_length) // 取指定长度的字符
+                .map(char::from) // 将 u8 转换为 char
+                .collect() // 收集成 String
+        })
+        .collect(); // 收集成 Vec<String>
+    random_strings
 }
 fn generate_random_digest() -> Vec<String> {
-    let mut rng = rand::rng();
-    let arr1: [String; 100] = rng.sample_iter(Alphanumeric)
-        .take(64)
-        .map(char::from)
-        .collect::<String>()
-        .as_bytes()
-        .chunks(7)
-        .map(|chunk| String::from_utf8(chunk.to_vec()).unwrap())
-        .collect::<Vec<String>>()
-        .try_into()
-        .unwrap();
-    arr1.to_vec()
+    generate_random_string(100, 64)
 }
 /// Create a Vector event from table data
 fn create_event_for_tidb_sql(index: usize, timestamp: String) -> (Vec<Event>, Vec<Event>) {
