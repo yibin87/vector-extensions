@@ -227,8 +227,8 @@ fn create_event_for_tidb_sql(index: usize, timestamp: String) -> (Vec<Event>, Ve
         let log = event.as_mut_log();
 
         // Add metadata with Vector prefix (ensure all fields have values)
-        log.insert("_vector_table", "topsql");
-        log.insert("_vector_source_table", "topsql");
+        log.insert("_vector_table", "tidb_topsql");
+        log.insert("_vector_source_table", "tidb_topsql");
         log.insert("_vector_source_schema", "test");
         log.insert("_vector_instance", format!("127.0.0.{}", index));
         log.insert("_vector_timestamp", timestamp.clone());
@@ -245,8 +245,8 @@ fn create_event_for_tidb_sql(index: usize, timestamp: String) -> (Vec<Event>, Ve
 
         let mut tikv_event = Event::Log(LogEvent::default());
         let tikv_log = tikv_event.as_mut_log();
-        tikv_log.insert("_vector_table", "topsql");
-        tikv_log.insert("_vector_source_table", "topsql");
+        tikv_log.insert("_vector_table", "tikv_exec_count");
+        tikv_log.insert("_vector_source_table", "tikv_exec_count");
         tikv_log.insert("_vector_source_schema", "test");
         tikv_log.insert("_vector_instance", format!("127.0.0.{}", index));
         tikv_log.insert("_vector_timestamp", timestamp.clone());
@@ -355,8 +355,8 @@ fn create_event_for_tikv_sql(index: usize, timestamp: String) -> Vec<Event> {
         let log = event.as_mut_log();
 
         // Add metadata with Vector prefix (ensure all fields have values)
-        log.insert("_vector_table", "topsql");
-        log.insert("_vector_source_table", "topsql");
+        log.insert("_vector_table", "tikv_topsql");
+        log.insert("_vector_source_table", "tikv_topsql");
         log.insert("_vector_source_schema", "test");
         log.insert("_vector_instance", format!("127.0.0.{}", index));
         log.insert("_vector_timestamp", timestamp.clone());
@@ -449,8 +449,8 @@ fn create_event_for_tikv_region(index: usize, timestamp: String) -> Vec<Event> {
         let log = event.as_mut_log();
 
         // Add metadata with Vector prefix (ensure all fields have values)
-        log.insert("_vector_table", "topsql");
-        log.insert("_vector_source_table", "topsql");
+        log.insert("_vector_table", "top_region");
+        log.insert("_vector_source_table", "top_region");
         log.insert("_vector_source_schema", "test");
         log.insert("_vector_instance", format!("127.0.0.{}", index));
         log.insert("_vector_timestamp", timestamp.clone());
